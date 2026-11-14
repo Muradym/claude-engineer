@@ -1,0 +1,27 @@
+name: Utopia GPT Task Queue Dispatcher
+
+# GPT can authorize one cloud task by updating a single file on main.
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.utopia/ACTIVE_TASK.md'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: utopia-task-dispatch
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    if: github.repository == 'Muradym/claude-engineer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Dispatch owner-authorized Utopia task
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/dispatches" -f event_type=utopia-task
