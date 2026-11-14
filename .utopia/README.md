@@ -1,40 +1,35 @@
-# Utopia cloud task queue
+# Utopia task queue — current safe mode
 
-The repository has **GitHub Issues disabled** (GitHub returned HTTP 410 on creating an Issue), so the ChatGPT → Claude Code bridge uses one owner-controlled task file:
+**Current state (2026-11-14): the only supported GitHub Actions task is a PUBLIC, strictly READ-ONLY audit of this repository.** Full autonomous code editing is **not yet enabled**; it requires a separate reviewed workflow and successful smoke test. No Claude workflow run has been observed.
 
-`.utopia/ACTIVE_TASK.md`
+## Task trigger
+1. GPT writes `.utopia/ACTIVE_TASK.md` to `main` using its authorized GitHub connector.
+2. The single workflow `.github/workflows/claude-autopilot.yml` triggers directly on a push changing that file. There is no intermediary dispatcher or Issue dependency.
+3. Before any Anthropic API credentials are available to the job, an ordinary Python preflight verifies **exactly one** `status: approved` and **exactly one** `mode: read_only_audit` field.
+4. Only a valid task can launch the Claude GitHub Action with read-only repository permissions, no Bash execution, a 10-turn ceiling, and a 15-minute timeout.
 
-## How it works
-1. The owner asks GPT for a specific Utopia task in ChatGPT.
-2. GPT writes or updates `.utopia/ACTIVE_TASK.md` on `main` through the authorized GitHub integration. **No laptop work is needed.**
-3. `.github/workflows/utopia-task-dispatch.yml` notices this file change and sends a `repository_dispatch` event.
-4. `.github/workflows/claude-autopilot.yml` starts `anthropics/claude-code-action@v1` in cloud GitHub Actions, subject to the runner, authentication and budget limits.
-5. Claude reads `CLAUDE.md` and the active task, runs bounded verification, creates a branch and proposes a PR when supported. It does not merge into `main`.
-
-## Task file format
-Create the file only when execution is intended, not for drafting:
-
+### Example (do not create until actually ready to run)
 ```markdown
 status: approved
-task_id: UTOPIA-001
-title: Verify project build and tests
+mode: read_only_audit
+task_id: UTOPIA-AUDIT-002
 
 # Scope
-Only Muradym/claude-engineer. Do not touch laptop or other repositories.
+Audit public Utopia project files only; do not access private repos.
 
-# Acceptance criteria
-- Inspect build and test configuration
-- Make the smallest necessary change
-- Run and report actual tests
-- Create a branch and PR; never merge automatically
+# Evidence
+Report file paths, SHA, warnings and unverified points without secrets.
 ```
 
-## Preflight requirements
-- GitHub Actions must be enabled in this fork.
-- Provide exactly one authorized cloud credential as a GitHub Actions secret: `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN`.
-- Repository Actions settings must allow creating PRs if automatic PR creation is desired.
-- GitHub Actions quotas, Anthropic limits and network policies still apply.
-- Do not commit tokens, API keys, secrets, or local-machine credentials.
+## Prerequisites
+- Actions must be enabled and allowed to run pinned `actions/checkout` and `anthropics/claude-code-action` in this fork.
+- One GitHub repository secret must be configured: `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN`; availability and billing have **not** been verified.
+- This repository is PUBLIC. Do not put private code, private audit details, tokens or confidential reports in task files, workflows, PRs or Actions logs.
+- Claude Code's own cloud GitHub authentication is **separate** from ChatGPT's connector. The GitHub Actions token is scoped to Utopia; it does not grant access to private `KOKON-OMEGA` or `CLAUDE-CODE-SKILLS`.
+- Private cross-repository audits must happen through Claude's separately authorized cloud session and be delivered privately, outside public GitHub artifacts.
+- GitHub Issues are disabled in this repository (GitHub API returned 410). No Issue triggers are present.
 
-## Status as of 2026-11-14
-Configuration committed. GitHub Issues are disabled. No Claude runtime test has been completed. An Actions run or successful PR is required before reporting an operational autopilot.
+## Evidence and status
+- The repo's `CLAUDE.md` specifies safe project boundaries.
+- `.utopia/READ_ONLY_GITHUB_AUDIT.md` is the separate instruction for Claude's **private cloud chat** to audit access to all three repositories, with no changes.
+- The audit workflow file is committed, but **no successful GitHub Actions execution is proven**.
