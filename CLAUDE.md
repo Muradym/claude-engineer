@@ -32,3 +32,6 @@ Repository: `Muradym/claude-engineer`. All user-facing comments/reports in Russi
 - EVIDENCE: tests PASS/FAIL, commit SHA, PR URL, workflow link.
 - BLOCKED: exact error and smallest required owner action (if any).
 - NEXT: one specific next step.
+
+## Read-only integration audit
+When the owner asks for a diagnostic audit of GitHub access, GPT/Claude collaboration or other accessible repositories, read `.utopia/READ_ONLY_GITHUB_AUDIT.md` and follow its STRICT READ ONLY boundaries. This is a diagnostic task, not authorization to access private repositories beyond this Claude session's existing permissions. Do not start this audit automatically or publish private findings into this public repository.
