@@ -4,12 +4,12 @@ Repository: `Muradym/claude-engineer`. All user-facing comments/reports in Russi
 
 ## Scope and separation
 - Work only in this authorized repository and the current cloud runner. Do not use or configure the owner's laptop.
-- Never access or modify KOKON OMEGA, KOKON MINI LOCAL, Arb Monitor or AI_CINEMA_STUDIO/ARLAN without a separate explicit instruction.
+- Never modify KOKON OMEGA, KOKON MINI LOCAL, Arb Monitor or AI_CINEMA_STUDIO/ARLAN without a separate explicit instruction. Reading another repository is permitted only for an explicitly owner-authorized read-only audit and only when the current Claude session actually has GitHub read access. Do not copy private audit details into this public repository.
 - The phrase Utopia/ユートピア is the name of this project; do not assume it identifies a verified third-party plugin.
 
 ## Autonomy with gates
-- For an owner-authorized Issue, inspect the repository, plan, implement, verify, commit to a feature branch, and create a Pull Request without routine confirmations.
-- Work one task at a time: scope -> implementation -> tests -> diff/secret review -> commit -> PR -> report.
+- Only run tasks that have been explicitly authorized. GitHub Issues are disabled in this fork. The current GitHub Actions workflow supports ONLY read-only Utopia audits through a validated task file; code editing, commits and PR creation from that workflow are disabled until a separate reviewed implementation workflow exists.
+- For future implementation work (not the current audit workflow): scope -> implementation -> tests -> diff/secret review -> feature-branch commit -> PR -> report. For audits: read -> verify evidence -> report privately; do not change files or settings.
 - Never force-push, bypass protection, merge to `main`, change billing, exfiltrate credentials, disable security gates or install unknown code without owner approval.
 - A GitHub Actions run is time-bounded. Never pretend this document starts a background daemon.
 
