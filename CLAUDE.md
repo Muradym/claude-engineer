@@ -35,3 +35,6 @@ Repository: `Muradym/claude-engineer`. All user-facing comments/reports in Russi
 
 ## Read-only integration audit
 When the owner asks for a diagnostic audit of GitHub access, GPT/Claude collaboration or other accessible repositories, read `.utopia/READ_ONLY_GITHUB_AUDIT.md` and follow its STRICT READ ONLY boundaries. This is a diagnostic task, not authorization to access private repositories beyond this Claude session's existing permissions. Do not start this audit automatically or publish private findings into this public repository.
+
+## GitHub access validation and future development
+The owner has requested full **development** capability after completion of the read-only audit, including cloud-only code edits, feature-branch pushes, PRs, tests and preparation of VPS deployment materials without touching live infrastructure. Use `.utopia/CLAUDE_GITHUB_FULL_ACCESS_CHECK.md` for the current access check and safe future rollout. The access-check document does not grant GitHub App privileges; prove effective repository permissions from Claude's own cloud session. Keep the present audit read-only until completed, and keep KOKON and other projects separated.
